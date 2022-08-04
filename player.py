@@ -6,6 +6,7 @@ class Player:
         self.name = name
         self.ships_list = ["Destroyer", "Submarine",
                            "Battleship1", "battleship2", "Aircraft carrier"]
+        self.selected_ships_list = []
         self.create_game_board()
 
     def create_game_board(self):
@@ -29,16 +30,23 @@ class Player:
         """
         method will select which ship to be placed on the battleship game board
         """
-
-        print("----choosing ship to place----")
-        for i in range(len(self.ships_list)):
-            print(f"choose {i} to place {self.ships_list[i]}")
-        self.user_select_ship_index = int(input("Enter here: "))
-        self.selected_ship_length = self.determine_ship_length(
-            self.user_select_ship_index)
-        print(
-            f"you selected {self.ships_list[self.user_select_ship_index]} with length {self.selected_ship_length}\n")
-        return self.user_select_ship_index
+        while True:
+            print("----choosing ship to place----")
+            for i in range(len(self.ships_list)):
+                print(f"choose {i} to place {self.ships_list[i]}")
+            self.user_select_ship_index = int(input("Enter here: "))
+            if self.ships_list[self.user_select_ship_index] in self.selected_ships_list:
+                print(
+                    f"You have selected {self.ships_list[self.user_select_ship_index]}, change another ship")
+                continue
+            else:
+                self.selected_ship_length = self.determine_ship_length(
+                    self.user_select_ship_index)
+                print(
+                    f"you selected {self.ships_list[self.user_select_ship_index]} with length {self.selected_ship_length}\n")
+                self.selected_ships_list.append(
+                    self.ships_list[self.user_select_ship_index])
+                break
 
     def determine_ship_length(self, ship_index):
         """
