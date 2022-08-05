@@ -116,6 +116,14 @@ class Player:
         self.shoot_row_index = int(self.shoot_row_index)
         self.shoot_col_index = int(self.col_index)
 
+    def determine_hit_miss(self, row_index, col_index):
+        if self.game_board[row_index][col_index] != "|_|":
+            print("Hit")
+            self.game_board[row_index][col_index] = "|X|"
+            self.score += 1
+        else:
+            print("Missed")
+            self.game_board[row_index][col_index] = "|O|"
 
 # player_one = Player("One")
 
