@@ -7,6 +7,7 @@ class Player:
         self.ships_list = ["Destroyer", "Submarine",
                            "Battleship1", "battleship2", "Aircraft carrier"]
         self.selected_ships_list = []
+        self.score = 0
         self.create_game_board()
 
     def create_game_board(self):
@@ -78,10 +79,10 @@ class Player:
             self.user_select_direction = input(
                 "Enter 'h' to place on the Horizontal, 'v' to place on the Vertical: ")
             print("Which row you want to place your ship?")
-            self.row_index = input(f"Row index, enter from 0 to {self.rows}: ")
+            self.row_index = input(f"y index, enter from 0 to {self.rows}: ")
             print("Which column you want to place your ship?")
             self.col_index = input(
-                f"Column index, enter from 0 to {self.cols}: ")
+                f"x index, enter from 0 to {self.cols}: ")
             self.row_index = int(self.row_index)
             self.col_index = int(self.col_index)
 
@@ -106,6 +107,14 @@ class Player:
                                     self.row_index][self.col_index] = f"|{self.ships_list[self.user_select_ship_index][0]}|"
             break
         self.display_game_board()
+
+    def player_shoot(self):
+        print("Where do you you want to hit the ship?")
+        self.shoot_row_index = input(f"y index, enter from 0 to {self.rows}: ")
+        self.shoot_col_index = input(
+            f"x index, enter from 0 to {self.cols}: ")
+        self.shoot_row_index = int(self.shoot_row_index)
+        self.shoot_col_index = int(self.col_index)
 
 
 # player_one = Player("One")
