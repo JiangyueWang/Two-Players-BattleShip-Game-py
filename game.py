@@ -25,6 +25,9 @@ class Game:
         self.player1.display_game_board()
 
     def player_place_fleet(self, player):
+        """
+        method will ask player to place thier 5 ships on the gameboard
+        """
         self.counter = 0
         while self.counter < 5:
             player.select_ship_to_place()
@@ -54,6 +57,9 @@ class Game:
             self.player1_shoot_result, self.player1.shoot_row_index, self.player1.shoot_col_index)
 
     def determin_winner(self, is_game_on):
+        """
+        method will print out the winner who's score reaches to 16 first, then return is_game_on
+        """
         if self.player1.score >= 16:
             print(f"{self.player1.name} wins!")
             is_game_on = False
@@ -65,6 +71,9 @@ class Game:
         return is_game_on
 
     def run_game(self):
+        """
+        the central method to run the game, and to be called in main.py
+        """
         self.game_rule()
         time.sleep(2)
         self.display_empty_game_board()
@@ -96,6 +105,6 @@ class Game:
                 self.player2_turn()
 
 
-game_one = Game()
-game_one.run_game()
-# game_one.player1_turn()
+# game_one = Game()
+# game_one.run_game()
+# # game_one.player1_turn()
