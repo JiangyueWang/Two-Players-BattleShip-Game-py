@@ -7,6 +7,8 @@ class Player:
         self.ships_list = ["Destroyer", "Submarine",
                            "Battleship1", "battleship2", "Aircraft carrier"]
         self.selected_ships_list = []
+        self.row_letter = ["A", "B", "C", "D", "E", "F", "G", "H",
+                           "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"]
         self.score = 0
         self.create_game_board()
 
@@ -72,19 +74,20 @@ class Player:
 
     def place_ship(self):
         """
-        method will identify which direction and location to place the selected ship 
+        method will identify which direction and location to place the selected ship
         """
         while True:
             print("Do you want to place your ship on the Horizontal or Vertical?")
             self.user_select_direction = input(
-                "Enter 'h' to place on the Horizontal, 'v' to place on the Vertical: ")
-            print("Which row you want to place your ship?")
-            self.row_index = input(f"y index, enter from 0 to {self.rows}: ")
-            print("Which column you want to place your ship?")
-            self.col_index = input(
-                f"x index, enter from 0 to {self.cols}: ")
-            self.row_index = int(self.row_index)
-            self.col_index = int(self.col_index)
+                "Enter 'h' to place on the Horizontal, 'v' to place on the Vertical: ").lower()
+
+            print(
+                f"Location you want to place your ship, letter 'A-T'for row, number '0 to {self.cols} for column'")
+            self.user_place_ship_location = input("Enter here: ")
+            self.col_index = self.user_entered_location_index(
+                self.user_place_ship_location)[0]
+            self.row_index = self.user_entered_location_index(
+                self.user_place_ship_location)[1]
 
             if self.game_board[self.row_index][self.col_index] != "|_|":
                 print(f"overlaps with other ship, choose another location\n\n")
@@ -109,26 +112,50 @@ class Player:
         self.display_game_board()
 
     def player_shoot(self):
-        print("Where do you you want to hit the ship?")
-        self.shoot_row_index = input(f"y index, enter from 0 to {self.rows}: ")
-        self.shoot_col_index = input(
-            f"x index, enter from 0 to {self.cols}: ")
-        self.shoot_row_index = int(self.shoot_row_index)
-        self.shoot_col_index = int(self.col_index)
+        """
+        method will ask player which location to shoot
+        """
+        print(
+            f"Location you want to shoot, letter 'A-T'for row, number '0 to {self.cols} for column'")
+        self.user_shoot_location = input("Enter here: ")
+        self.user_entered_location_index(self.user_shoot_location)
 
     def determine_hit_miss(self, row_index, col_index):
+        """
+        method will return whether player has hit or miss the other player's ship
+
+        """
         if self.game_board[row_index][col_index] != "|_|":
-            print("Hit")
+            return "Hit"
+        else:
+            return "Missed"
+
+    def updated_board(self, shoot_result, row_index, col_index):
+        """
+        method will update the location with "|X|" if the player hits the other player's ship, player's score increased by 1
+        and will update location with "|O|" if the player missed the target
+        """
+        if shoot_result == "Hit":
             self.game_board[row_index][col_index] = "|X|"
             self.score += 1
         else:
-            print("Missed")
             self.game_board[row_index][col_index] = "|O|"
+        self.display_game_board()
+
+    def user_entered_location_index(self, user_entered_location):
+        """
+        method will return the column and row index of user entered location
+        """
+        location_col_index = int(user_entered_location[1:])
+        location_row_index = self.row_letter.index(
+            user_entered_location[0])
+        return location_col_index, location_row_index
+
 
 # player_one = Player("One")
 
 # player_one.select_ship_to_place()
 # player_one.place_ship()
-# print("--------------------placing second ship---------------------")
-# player_one.select_ship_to_place()
-# player_one.place_ship()
+# # print("--------------------placing second ship---------------------")
+# # player_one.select_ship_to_place()
+# # player_one.place_ship()

@@ -5,8 +5,10 @@ from player import Player
 class Game:
 
     def __init__(self):
-        self.player1 = Player("Player One")
-        self.player2 = Player("Player Two")
+        self.player1 = Player("Player1")
+        self.player2 = Player("Player2")
+        self.player1_view_player2_board = Player("Player1 view Player2 board")
+        self.player2_view_player1_board = Player("Player2 view Player1 board")
 
     def game_rule(self):
         print("\nWelcome to Two Players Battleshipe Game!\n\n")
@@ -37,24 +39,21 @@ class Game:
             self.counter += 1
 
     def player1_turn(self):
-        pass
+        self.player1.player_shoot()
+
+        self.player1_shoot_result = self.player2.determine_hit_miss(
+            self.player1.shoot_row_index, self.player1.shoot_col_index)
+
+        print(self.player1_shoot_result)
+        print(f"{self.player1.name} score is {self.player1.score}")
+
+        self.player1_view_player2_board.updated_board(
+            self.player1_shoot_result, self.player1.shoot_row_index, self.player1.shoot_col_index)
 
     def player2_turn(self):
         pass
 
-    def check_chosen_location_against_board(self):
-        pass
-
-    def display_updated_game_board(self):
-        pass
-
-    def update_score(self):
-        pass
-
     def determin_winner(self):
-        pass
-
-    def play_again_check(self):
         pass
 
     def run_game(self):
@@ -74,6 +73,13 @@ class Game:
         self.player2.display_game_board()
         print(f"----{self.player2.name} places the fleet----")
         self.play2_place_fleet()
+        print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+
+        print(f"---{self.player1.name}'s turn----")
+        self.player1_turn()
 
 
 game_one = Game()
