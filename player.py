@@ -1,5 +1,3 @@
-
-
 class Player:
 
     def __init__(self, name):
@@ -111,14 +109,17 @@ class Player:
             break
         self.display_game_board()
 
-    def player_shoot(self):
+    def player_shoot_index(self):
         """
         method will ask player which location to shoot
         """
         print(
             f"Location you want to shoot, letter 'A-T'for row, number '0 to {self.cols} for column'")
         self.user_shoot_location = input("Enter here: ")
-        self.user_entered_location_index(self.user_shoot_location)
+        self.shoot_col_index = self.user_entered_location_index(
+            self.user_shoot_location)[0]
+        self.shoot_row_index = self.user_entered_location_index(
+            self.user_shoot_location)[1]
 
     def determine_hit_miss(self, row_index, col_index):
         """
@@ -126,8 +127,10 @@ class Player:
 
         """
         if self.game_board[row_index][col_index] != "|_|":
+            self.score += 1
             return "Hit"
         else:
+            self.score = self.score
             return "Missed"
 
     def updated_board(self, shoot_result, row_index, col_index):
@@ -137,7 +140,6 @@ class Player:
         """
         if shoot_result == "Hit":
             self.game_board[row_index][col_index] = "|X|"
-            self.score += 1
         else:
             self.game_board[row_index][col_index] = "|O|"
         self.display_game_board()

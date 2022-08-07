@@ -24,37 +24,45 @@ class Game:
         print("Battleshipe Board Example\n")
         self.player1.display_game_board()
 
-    def play1_place_fleet(self):
+    def player_place_fleet(self, player):
         self.counter = 0
         while self.counter < 5:
-            self.player1.select_ship_to_place()
-            self.player1.place_ship()
-            self.counter += 1
-
-    def play2_place_fleet(self):
-        self.counter = 0
-        while self.counter < 5:
-            self.player2.select_ship_to_place()
-            self.player2.place_ship()
+            player.select_ship_to_place()
+            player.place_ship()
             self.counter += 1
 
     def player1_turn(self):
-        self.player1.player_shoot()
-
+        self.player1.player_shoot_index()
         self.player1_shoot_result = self.player2.determine_hit_miss(
             self.player1.shoot_row_index, self.player1.shoot_col_index)
 
         print(self.player1_shoot_result)
-        print(f"{self.player1.name} score is {self.player1.score}")
+        print(f"{self.player1.name} score is {self.player1.score}\n\n")
 
         self.player1_view_player2_board.updated_board(
             self.player1_shoot_result, self.player1.shoot_row_index, self.player1.shoot_col_index)
 
     def player2_turn(self):
-        pass
+        self.player2.player_shoot_index()
+        self.player2_shoot_result = self.player1.determine_hit_miss(
+            self.player2.shoot_row_index, self.player2.shoot_col_index)
 
-    def determin_winner(self):
-        pass
+        print(self.player2_shoot_result)
+        print(f"{self.player2.name} score is {self.player2.score}\n\n")
+
+        self.player1_view_player2_board.updated_board(
+            self.player1_shoot_result, self.player1.shoot_row_index, self.player1.shoot_col_index)
+
+    def determin_winner(self, is_game_on):
+        if self.player1.score >= 16:
+            print(f"{self.player1.name} wins!")
+            is_game_on = False
+        elif self.player2.score >= 16:
+            print(f"{self.player2.name} wins!")
+            is_game_on = False
+        else:
+            is_game_on = True
+        return is_game_on
 
     def run_game(self):
         self.game_rule()
@@ -64,7 +72,7 @@ class Game:
         print(f"----{self.player1.name} game board")
         self.player2.display_game_board()
         print(f"----{self.player1.name} places the fleet----")
-        self.play1_place_fleet()
+        self.player_place_fleet(self.player1)
         print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
@@ -72,15 +80,22 @@ class Game:
         print(f"----{self.player2.name} game board")
         self.player2.display_game_board()
         print(f"----{self.player2.name} places the fleet----")
-        self.play2_place_fleet()
+        self.player_place_fleet(self.player2)
         print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
-        print(f"---{self.player1.name}'s turn----")
-        self.player1_turn()
+        self.is_game_on = True
+        while self.is_game_on:
+            print(f"---{self.player1.name}'s turn----")
+            self.player1_turn()
+            self.is_game_on = self.determin_winner(self.is_game_on)
+            if self.is_game_on == True:
+                print(f"---{self.player2.name}'s turn----")
+                self.player2_turn()
 
 
 game_one = Game()
 game_one.run_game()
+# game_one.player1_turn()
