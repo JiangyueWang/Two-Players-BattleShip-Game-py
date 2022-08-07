@@ -103,8 +103,4 @@ class Game:
             if self.is_game_on == True:
                 print(f"---{self.player2.name}'s turn----")
                 self.player2_turn()
-
-
-# game_one = Game()
-# game_one.run_game()
-# # game_one.player1_turn()
+                self.is_game_on = self.determin_winner(self.is_game_on)
